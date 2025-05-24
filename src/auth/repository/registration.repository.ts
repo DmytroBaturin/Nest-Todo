@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserModel } from '../../_entities/user.model';
-import { ReqLoginDTO } from '../dto/req/login.dto';
+import { ReqRegistrationDTO } from '../dto/req/registration.dto';
+import { ResRegistrationDTO } from '../dto/res/registration.dto';
 
 @Injectable()
 export class RegistrationRepository {
@@ -11,17 +12,24 @@ export class RegistrationRepository {
     private readonly repo: Repository<UserModel>,
   ) {}
 
-  async validateUser(credentials: ReqLoginDTO): Promise<UserModel | string> {
+  async validateUser(
+    credentials: ReqRegistrationDTO,
+  ): Promise<ResRegistrationDTO> {
     const existingUser = await this.repo.findOne({
       where: {
         email: credentials.email,
       },
     });
 
-    return existingUser ?? 'user already exist';
+    return { status: existingUser ? 'user created' : 'user already exists' };
   }
 
-  registrationUser() {
-    return '200';
+  registrationUser(credentials: ReqRegistrationDTO) {
+    const user = this.repo.create({
+      email: credentials.email,
+      password: credentials.password,
+    });
+
+    return this.repo.save(user);
   }
 }

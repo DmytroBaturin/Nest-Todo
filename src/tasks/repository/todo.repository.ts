@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { TodoModel } from '../../models/todo.model';
 import { CreateTodoDto } from '../dto/req/create-task.dto';
+import { TodoModel } from '../../_entities/todo.model';
 
 @Injectable()
 export class TaskRepository {

@@ -6,7 +6,4 @@ export class ReqLoginDTO {
 
   @IsNotEmpty()
   password: string;
-
-  @IsNotEmpty()
-  repeatPassword: string;
 }
