@@ -20,7 +20,7 @@ export class TodoModel {
   description?: string;
 
   @OneToMany(() => TaskModel, (task) => task.todo)
-  tasks: TaskModel[];
+  tasks?: TaskModel[];
 
   @ManyToOne(() => UserModel, (user) => user.todos)
   owner: UserModel;

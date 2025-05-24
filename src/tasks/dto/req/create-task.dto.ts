@@ -1,5 +1,7 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 
+type Status = 'pending' | 'done' | 'cancelled';
+
 export class CreateTodoDto {
   @IsNotEmpty()
   @IsString()
@@ -9,5 +11,5 @@ export class CreateTodoDto {
   description: string;
 
   @IsNotEmpty()
-  status: string;
+  status: Status;
 }

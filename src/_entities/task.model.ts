@@ -18,5 +18,5 @@ export class TaskModel {
   status: Status;
 
   @ManyToOne(() => TodoModel, (todo) => todo.tasks)
-  todo: TodoModel;
+  todo?: TodoModel;
 }
