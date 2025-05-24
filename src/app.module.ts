@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TaskModule } from './tasks/task.module';
 import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { UserModule } from './user/user.module';
       synchronize: true,
       dropSchema: true,
     }),
+    AuthModule,
     TaskModule,
     UserModule,
   ],

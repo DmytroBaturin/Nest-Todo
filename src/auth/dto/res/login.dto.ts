@@ -1,3 +1,3 @@
 export class ResLoginDTO {
-  status: string;
+  email: string;
 }

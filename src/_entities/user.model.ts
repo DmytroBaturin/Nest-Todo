@@ -5,8 +5,6 @@ import { TodoModel } from './todo.model';
 export class UserModel {
   @PrimaryGeneratedColumn('uuid') id: string;
 
-  @Column() name: string;
-
   @Column() email: string;
 
   @Column() password: string;
