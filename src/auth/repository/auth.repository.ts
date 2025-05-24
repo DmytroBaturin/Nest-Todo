@@ -22,13 +22,12 @@ export class AuthRepository {
     return existingUser ? existingUser : null;
   }
 
-  registrationUser(credentials: ReqRegistrationDTO) {
-    console.log(credentials);
+  async registrationUser(credentials: ReqRegistrationDTO): Promise<UserModel> {
     const user = this.repo.create({
       email: credentials.email,
       password: credentials.password,
     });
 
-    return this.repo.save(user);
+    return await this.repo.save(user);
   }
 }

@@ -1,36 +1,50 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { AuthRepository } from './repository/auth.repository';
 import { ReqRegistrationDTO } from './dto/req/registration.dto';
-import { ResLoginDTO } from './dto/res/login.dto';
 import { ReqLoginDTO } from './dto/req/login.dto';
 import { mapUserToResponse } from './mapper/user.mapper';
+import { ApiResponse } from '../_types/api.dto';
+import { ResLoginDTO } from './dto/res/login.dto';
 
 @Injectable()
 export class AuthService {
   constructor(private readonly authRepository: AuthRepository) {}
 
-  async loginUser(dto: ReqLoginDTO): Promise<ResLoginDTO | null> {
+  async loginUser(dto: ReqLoginDTO): Promise<ApiResponse<ResLoginDTO>> {
     const user = await this.authRepository.findUserByEmail({
       email: dto.email,
     });
 
-    console.log(user);
-
     if (user && dto.password === user.password) {
-      return mapUserToResponse(user);
+      return {
+        success: true,
+        message: 'User already logged in',
+        data: mapUserToResponse(user),
+      };
     }
-    return null;
+    return {
+      success: false,
+      message: 'Incorrect email or password',
+    };
   }
 
-  async registerUser(dto: ReqRegistrationDTO): Promise<void> {
+  async registerUser(
+    dto: ReqRegistrationDTO,
+  ): Promise<ApiResponse<ResLoginDTO>> {
     const existingUser = await this.authRepository.findUserByEmail({
       email: dto.email,
     });
-
     if (existingUser) {
-      throw new ConflictException('User with this email already exists');
+      return {
+        success: false,
+        message: 'User already exist',
+      };
     }
-
-    await this.authRepository.registrationUser(dto);
+    const newUser = await this.authRepository.registrationUser(dto);
+    return {
+      success: true,
+      message: 'User already registered',
+      data: mapUserToResponse(newUser),
+    };
   }
 }
