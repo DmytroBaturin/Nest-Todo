@@ -1,6 +1,6 @@
-import { IsNotEmpty, IsString } from 'class-validator';
-
-type Status = 'pending' | 'done' | 'cancelled';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { Column } from 'typeorm';
+import { StatusEnum } from '../../../_entities/task.model';
 
 export class CreateTodoDto {
   @IsNotEmpty()
@@ -8,8 +8,9 @@ export class CreateTodoDto {
   title: string;
 
   @IsNotEmpty()
-  description: string;
+  description?: string;
 
-  @IsNotEmpty()
-  status: Status;
+  @Column({ type: 'enum', enum: StatusEnum, default: StatusEnum.Pending })
+  @IsOptional()
+  status?: StatusEnum;
 }

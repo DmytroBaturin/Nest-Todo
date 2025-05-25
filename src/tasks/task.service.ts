@@ -7,7 +7,7 @@ import { TodoModel } from '../_entities/todo.model';
 export class TaskService {
   constructor(private readonly taskRepo: TaskRepository) {}
 
-  async createTask(dto: CreateTodoDto): Promise<TodoModel> {
-    return this.taskRepo.create(dto);
+  async createTodo(dto: CreateTodoDto, ownerId: string): Promise<TodoModel> {
+    return this.taskRepo.createTodo({ ...dto, ownerId: ownerId });
   }
 }

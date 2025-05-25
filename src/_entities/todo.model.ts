@@ -4,6 +4,7 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
   ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import { UserModel } from './user.model';
 import { TaskModel } from './task.model';
@@ -22,6 +23,10 @@ export class TodoModel {
   @OneToMany(() => TaskModel, (task) => task.todo)
   tasks?: TaskModel[];
 
-  @ManyToOne(() => UserModel, (user) => user.todos)
+  @ManyToOne(() => UserModel, { eager: false })
+  @JoinColumn({ name: 'ownerId' })
   owner: UserModel;
+
+  @Column()
+  ownerId: string;
 }
